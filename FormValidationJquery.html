@@ -5,39 +5,122 @@
   <title>User Registration Form</title>
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <style>
-    body { font-family: Arial, sans-serif; margin: 30px; }
-    input { display: block; margin: 10px 0; padding: 8px; width: 250px; }
-    .error { color: red; font-size: 14px; }
-    .success { color: green; font-size: 16px; margin-top: 10px; }
+    /* Reset and background */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    /* Card container */
+    .form-container {
+      background: #fff;
+      padding: 40px 30px;
+      border-radius: 15px;
+      box-shadow: 0px 10px 25px rgba(0,0,0,0.2);
+      width: 350px;
+      text-align: center;
+      animation: fadeIn 1s ease-in-out;
+    }
+
+    /* Title */
+    h2 {
+      margin-bottom: 20px;
+      color: #333;
+    }
+
+    /* Input fields */
+    input {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      font-size: 15px;
+      transition: 0.3s ease;
+    }
+    input:focus {
+      border-color: #2575fc;
+      outline: none;
+      box-shadow: 0 0 8px rgba(37,117,252,0.3);
+    }
+
+    /* Button */
+    button {
+      width: 100%;
+      padding: 12px;
+      background: linear-gradient(90deg, #6a11cb, #2575fc);
+      border: none;
+      border-radius: 8px;
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+      margin-top: 10px;
+      transition: transform 0.2s ease, box-shadow 0.3s ease;
+    }
+    button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    }
+
+    /* Error and success messages */
+    .error {
+      color: #e74c3c;
+      font-size: 13px;
+      display: block;
+      text-align: left;
+      margin-top: -8px;
+      margin-bottom: 5px;
+    }
+    .success {
+      color: #27ae60;
+      font-size: 15px;
+      margin-top: 15px;
+      font-weight: bold;
+    }
+
+    /* Animation */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
   </style>
 </head>
 <body>
-  <h2>User Registration</h2>
-  <form id="regForm">
-    <input type="text" id="name" placeholder="Enter Name" />
-    <span id="nameError" class="error"></span>
+  <div class="form-container">
+    <h2>User Registration</h2>
+    <form id="regForm">
+      <input type="text" id="name" placeholder="Enter Name" />
+      <span id="nameError" class="error"></span>
 
-    <input type="email" id="email" placeholder="Enter Email" />
-    <span id="emailError" class="error"></span>
+      <input type="email" id="email" placeholder="Enter Email" />
+      <span id="emailError" class="error"></span>
 
-    <input type="password" id="password" placeholder="Enter Password" />
-    <span id="passwordError" class="error"></span>
+      <input type="password" id="password" placeholder="Enter Password" />
+      <span id="passwordError" class="error"></span>
 
-    <input type="text" id="phone" placeholder="Enter Phone (10 digits)" />
-    <span id="phoneError" class="error"></span>
+      <input type="text" id="phone" placeholder="Enter Phone (10 digits)" />
+      <span id="phoneError" class="error"></span>
 
-    <button type="submit">Register</button>
-  </form>
-
-  <div id="successMsg" class="success"></div>
+      <button type="submit">Register</button>
+    </form>
+    <div id="successMsg" class="success"></div>
+  </div>
 
   <script>
     $(document).ready(function(){
       $("#regForm").submit(function(e){
-        e.preventDefault(); // stop page reload
+        e.preventDefault(); 
         let isValid = true;
 
-        // Clear errors
         $(".error").text("");
         $("#successMsg").text("");
 
@@ -46,26 +129,22 @@
         let password = $("#password").val().trim();
         let phone = $("#phone").val().trim();
 
-        // Name validation
         if(name === ""){
           $("#nameError").text("Name is required");
           isValid = false;
         }
 
-        // Email validation
         let emailPattern = /^[^ ]+@[^ ]+\.[a-z]{2,3}$/;
         if(!email.match(emailPattern)){
           $("#emailError").text("Enter a valid email");
           isValid = false;
         }
 
-        // Password validation
         if(password.length < 6){
           $("#passwordError").text("Password must be at least 6 characters");
           isValid = false;
         }
 
-        // Phone validation
         let phonePattern = /^[0-9]{10}$/;
         if(!phone.match(phonePattern)){
           $("#phoneError").text("Phone must be 10 digits");
