@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>User Registration Form</title>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 30px; }
+    input { display: block; margin: 10px 0; padding: 8px; width: 250px; }
+    .error { color: red; font-size: 14px; }
+    .success { color: green; font-size: 16px; margin-top: 10px; }
+  </style>
+</head>
+<body>
+  <h2>User Registration</h2>
+  <form id="regForm">
+    <input type="text" id="name" placeholder="Enter Name" />
+    <span id="nameError" class="error"></span>
+
+    <input type="email" id="email" placeholder="Enter Email" />
+    <span id="emailError" class="error"></span>
+
+    <input type="password" id="password" placeholder="Enter Password" />
+    <span id="passwordError" class="error"></span>
+
+    <input type="text" id="phone" placeholder="Enter Phone (10 digits)" />
+    <span id="phoneError" class="error"></span>
+
+    <button type="submit">Register</button>
+  </form>
+
+  <div id="successMsg" class="success"></div>
+
+  <script>
+    $(document).ready(function(){
+      $("#regForm").submit(function(e){
+        e.preventDefault(); // stop page reload
+        let isValid = true;
+
+        // Clear errors
+        $(".error").text("");
+        $("#successMsg").text("");
+
+        let name = $("#name").val().trim();
+        let email = $("#email").val().trim();
+        let password = $("#password").val().trim();
+        let phone = $("#phone").val().trim();
+
+        // Name validation
+        if(name === ""){
+          $("#nameError").text("Name is required");
+          isValid = false;
+        }
+
+        // Email validation
+        let emailPattern = /^[^ ]+@[^ ]+\.[a-z]{2,3}$/;
+        if(!email.match(emailPattern)){
+          $("#emailError").text("Enter a valid email");
+          isValid = false;
+        }
+
+        // Password validation
+        if(password.length < 6){
+          $("#passwordError").text("Password must be at least 6 characters");
+          isValid = false;
+        }
+
+        // Phone validation
+        let phonePattern = /^[0-9]{10}$/;
+        if(!phone.match(phonePattern)){
+          $("#phoneError").text("Phone must be 10 digits");
+          isValid = false;
+        }
+
+        if(isValid){
+          $("#successMsg").text("✅ Registration Successful!");
+        }
+      });
+    });
+  </script>
+</body>
+</html>
