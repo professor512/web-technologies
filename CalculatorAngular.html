@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="calcApp">
+<head>
+  <meta charset="UTF-8">
+  <title>AngularJS Calculator</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #74ebd5, #9face6);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+    .calculator {
+      background: #2c3e50;
+      padding: 20px;
+      border-radius: 16px;
+      box-shadow: 0px 8px 25px rgba(0,0,0,0.3);
+      width: 320px;
+    }
+    .display {
+      background: #1a252f;
+      color: #00ff9d;
+      font-size: 28px;
+      text-align: right;
+      padding: 15px;
+      border-radius: 10px;
+      margin-bottom: 15px;
+      min-height: 50px;
+      overflow-x: auto;
+    }
+    .buttons {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+    }
+    button {
+      padding: 18px;
+      font-size: 18px;
+      font-weight: bold;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: transform 0.2s, background 0.3s;
+    }
+    button:active {
+      transform: scale(0.95);
+    }
+    .btn-num {
+      background: #34495e;
+      color: white;
+    }
+    .btn-op {
+      background: #f39c12;
+      color: white;
+    }
+    .btn-clear {
+      background: #e74c3c;
+      color: white;
+    }
+    .btn-equal {
+      background: #27ae60;
+      color: white;
+      grid-column: span 2;
+    }
+  </style>
+</head>
+<body ng-controller="calcController">
+
+  <div class="calculator">
+    <div class="display">{{ display || "0" }}</div>
+    <div class="buttons">
+      <button class="btn-clear" ng-click="clear()">C</button>
+      <button class="btn-op" ng-click="append('/')">÷</button>
+      <button class="btn-op" ng-click="append('*')">×</button>
+      <button class="btn-op" ng-click="append('-')">−</button>
+
+      <button class="btn-num" ng-click="append('7')">7</button>
+      <button class="btn-num" ng-click="append('8')">8</button>
+      <button class="btn-num" ng-click="append('9')">9</button>
+      <button class="btn-op" ng-click="append('+')">+</button>
+
+      <button class="btn-num" ng-click="append('4')">4</button>
+      <button class="btn-num" ng-click="append('5')">5</button>
+      <button class="btn-num" ng-click="append('6')">6</button>
+      <button class="btn-op" ng-click="append('%')">%</button>
+
+      <button class="btn-num" ng-click="append('1')">1</button>
+      <button class="btn-num" ng-click="append('2')">2</button>
+      <button class="btn-num" ng-click="append('3')">3</button>
+      <button class="btn-op" ng-click="backspace()">⌫</button>
+
+      <button class="btn-num" ng-click="append('0')">0</button>
+      <button class="btn-num" ng-click="append('.')">.</button>
+      <button class="btn-equal" ng-click="calculate()">=</button>
+    </div>
+  </div>
+
+  <script>
+    var app = angular.module("calcApp", []);
+    app.controller("calcController", function($scope) {
+      $scope.display = "";
+
+      $scope.append = function(value) {
+        $scope.display += value;
+      };
+
+      $scope.clear = function() {
+        $scope.display = "";
+      };
+
+      $scope.backspace = function() {
+        $scope.display = $scope.display.slice(0, -1);
+      };
+
+      $scope.calculate = function() {
+        try {
+          if ($scope.display.includes("/0")) {
+            $scope.display = "Error (÷0)";
+          } else {
+            $scope.display = eval($scope.display).toString();
+          }
+        } catch (e) {
+          $scope.display = "Error";
+        }
+      };
+    });
+  </script>
+
+</body>
+</html>
